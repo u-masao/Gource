@@ -57,6 +57,7 @@ class Gource : public SDLApp {
     RLogMill* logmill;
 
     RCommitLog* commitlog;
+    std::ofstream frame_log_file;
     PositionSlider slider;
     ZoomCamera camera;
 

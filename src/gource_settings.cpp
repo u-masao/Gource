@@ -112,6 +112,8 @@ if(extended_help) {
 
     printf("  --output-custom-log FILE  Output a custom format log file ('-' for STDOUT).\n\n");
 
+    printf("  --frame-log FILE         Output active files per frame to a log file.\n\n");
+
     printf("  -b, --background-colour  FFFFFF    Background colour in hex\n");
     printf("      --background-image   IMAGE     Set a background image\n\n");
 
@@ -248,6 +250,7 @@ GourceSettings::GourceSettings() {
     conf_sections["load-config"]     = "command-line";
     conf_sections["save-config"]     = "command-line";
     conf_sections["output-custom-log"] = "command-line";
+    conf_sections["frame-log"]         = "command-line";
     conf_sections["log-level"]         = "command-line";
 
     //boolean args
@@ -327,6 +330,7 @@ GourceSettings::GourceSettings() {
     arg_types["load-config"]        = "string";
     arg_types["save-config"]        = "string";
     arg_types["output-custom-log"]  = "string";
+    arg_types["frame-log"]          = "string";
     arg_types["path"]               = "string";
     arg_types["log-command"]        = "string";
     arg_types["background-colour"]  = "string";
@@ -582,6 +586,11 @@ void GourceSettings::commandLineOption(const std::string& name, const std::strin
 
     if(name == "output-custom-log" && value.size() > 0) {
         output_custom_filename = value;
+        return;
+    }
+
+    if(name == "frame-log" && value.size() > 0) {
+        frame_log = value;
         return;
     }
 

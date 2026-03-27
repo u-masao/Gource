@@ -165,6 +165,7 @@ public:
     float filename_time;
 
     std::string output_custom_filename;
+    std::string frame_log;
 
     TextureResource* file_graphic;
 

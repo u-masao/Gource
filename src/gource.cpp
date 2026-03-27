@@ -29,6 +29,10 @@ Gource::Gource(FrameExporter* exporter) {
     this->logfile = gGourceSettings.path;
     commitlog = 0;
 
+    if(!gGourceSettings.frame_log.empty()) {
+        frame_log_file.open(gGourceSettings.frame_log.c_str(), std::ios::out | std::ios::trunc);
+    }
+
     //disable OpenGL 2.0 functions if not supported
     if(!GLEW_VERSION_2_0) gGourceSettings.ffp = true;
 
@@ -214,6 +218,10 @@ void Gource::writeCustomLog(const std::string& logfile, const std::string& outpu
 }
 
 Gource::~Gource() {
+    if(frame_log_file.is_open()) {
+        frame_log_file.close();
+    }
+
     reset();
 
     if(logmill!=0)   delete logmill;
@@ -1195,6 +1203,14 @@ void Gource::processCommit(const RCommit& commit, float t) {
 
         //is this a directory (ends in slash)
         //deleting a directory - find directory: then for each file, remove each file
+
+        if(frame_log_file.is_open()) {
+            frame_log_file << framecount << "|"
+                           << (long long)currtime << "|"
+                           << commit.username << "|"
+                           << cf.action << "|"
+                           << cf.filename << std::endl;
+        }
 
         if(!cf.filename.empty() && cf.filename[cf.filename.size()-1] == '/') {
 
